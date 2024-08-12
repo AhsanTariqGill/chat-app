@@ -1,0 +1,13 @@
+<h2>Conversation with <%= @receiver.name%></h2>
+
+<p><%= @message.body%></p>
+
+<%= form_with url: @path do |form| %>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_field :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

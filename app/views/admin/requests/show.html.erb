@@ -1,0 +1,29 @@
+<h1>Requests</h1>
+
+<div class="admin">
+	<p><strong>New Requests</strong></p>
+  <ol>
+    <% @requests.each do |request| %>
+    	<%if !request.approve?%>
+      		<li>
+        		<p><%= User.find(request.sender_id).name%> <strong>to</strong> <%= User.find(request.receiver_id).name%></p>&nbsp;&nbsp;
+        		<%= link_to "Approve", admin_approve_request_path(request.id, User.find(request.sender_id).id, User.find(request.receiver_id).id)%>
+            <label class='line-after'><span></span><label>
+      		</li>
+      	<% end %>
+    <% end %>
+  </ol>
+
+  <p><strong>Approved Requests</strong></p>
+  <ol>
+    <% @requests.each do |request| %>
+      <%if request.approve?%>
+      <li>
+            <p><%= User.find(request.sender_id).name%> to <%= User.find(request.receiver_id).name%></p>
+            <label class='line-after'><span></span><label>
+      </li>
+        <% end %>
+    <% end %>
+  </ol>
+    
+</div>

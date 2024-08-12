@@ -1,0 +1,16 @@
+<h1>Chat with <%= @user.name.capitalize() %></h1>
+<div id="messages">
+  <% @messages.each do |message| %>
+    <div class="message <%= 'sent' if message.sender == @current_user %>">
+      <p><strong><%= message.sender.name.capitalize() %>:</strong> <%= message.body %></p>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with(model: [@conversation, @message], local: true) do |form| %>
+  <div class="form-group">
+    <%= form.text_field :body, rows: 3, class: 'form-control', placeholder: 'Message...' %>
+    <%= form.hidden_field :current_user_id, :value => @current_user.id %>
+  </div>
+  <%= form.submit 'Send', class: 'btn btn-primary' %>
+<% end %>

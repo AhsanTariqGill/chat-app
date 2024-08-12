@@ -1,0 +1,39 @@
+<h1>Welcome <%= current_user.name.capitalize() %></h1>
+
+<div class="box">
+  <p>Existing conversations</p>
+  <ul>
+    <% @users.each do |user| %>
+      <%if user.id != current_user.id && conversation?(user) && valid_relation?(user) && is_approved?(get_conversation(user))%>
+        <li>
+          <%= link_to user.name.capitalize(), chat_with_user_path(current_user.id, user.id) %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <p>Pending Approvals</p>
+
+  <ul>
+    <% @users.each do |user| %>
+      <%if user.id != current_user.id && !conversation?(user)  && !approval_pending?(get_request(user))%>
+        <li>
+          <%= user.name.capitalize()%>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+
+    <p>Start new conversation</p>
+
+  <ul>
+    <% @users.each do |user| %>
+      <%if user.id != current_user.id && !conversation?(user)  && valid_relation?(user) && !is_approved?(get_conversation(user)) && approval_pending?(get_request(user))%>
+        <li>
+          <%= link_to user.name.capitalize(), get_request_admin_user_path(current_user, user) %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
