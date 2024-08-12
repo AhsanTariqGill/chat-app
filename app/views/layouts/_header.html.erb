@@ -28,7 +28,11 @@
           <li class="nav-item">
             <%= link_to "Conversations", current_user, class: "nav-link", 'aria-current': "page" if logged_in?%>
           </li> 
+          <li class="nav-item">
+            <%= link_to "Settings", edit_user_path(current_user), class: "nav-link", 'aria-current': "page" if logged_in?%>
+          </li> 
         <%end%>
+
       </ul>
       <%if logged_in?%>
       <li class="nav-item d-flex">

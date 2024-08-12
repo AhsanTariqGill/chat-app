@@ -5,8 +5,7 @@
     <% @users.each do |user| %>
     <%if valid_relation?(user)%>
       <li>
-        <%current = "(You)" if current_user?(user)%>
-        <%= link_to "#{user.name.capitalize()} #{current}", user%>
+        <%= user.name.capitalize()%>
       </li>
     <%end%>
     <% end %>
