@@ -5,11 +5,11 @@ module Admin
     before_action :valid_user_conversation, only: :create
     before_action :logged_in_user
     before_action :admin_check, only: %i[approve show]
-    before_action :request_exist, only: :create
     before_action :current_user_param, only: :create
     before_action :other_user_param, only: :create
     before_action :sender_param, only: :approve
     before_action :receiver_param, only: :approve
+    before_action :request_exist, only: :approve
 
     def create
       @request = Request.new(sender_id: params[:id], receiver_id: params[:other_user_id])
@@ -47,14 +47,38 @@ module Admin
     end
 
     def sender_param
-      @current_user = User.find(params[:sender_id])
+      @current_user = User.find_by(id: params[:sender_id])
+
+      if @current_user.nil?
+        flash[:danger] = "Sender does not exist"
+        redirect_to admin_root_path
+      end
+      @current_user
     end
 
     def receiver_param
-      @user = User.find(params[:receiver_id])
+      @user = User.find_by(id: params[:receiver_id])
+      if @user.nil?
+        flash[:danger] = "Receiver does not exist"
+        redirect_to admin_root_path
+      end
+      @user
     end
 
-    def request_exist; end
+    def request_exist
+      @request = Request.find_by(sender_id: sender_param.id,
+                                         receiver_id: receiver_param.id) || Request.find_by(
+                                           receiver_id: sender_param.id, sender_id: receiver_param.id)
+
+      if @request.nil?
+        flash[:danger] = "Request does not exist"
+        redirect_to admin_requests_path
+      elsif @request.approve?
+        flash[:danger] = "Request already approved"
+        redirect_to admin_requests_path
+      end
+        
+    end
 
     def admin_check
       return if is_admin?

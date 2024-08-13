@@ -36,7 +36,7 @@
       </ul>
       <%if logged_in?%>
       <li class="nav-item d-flex">
-          <%= link_to "Become seller", seller_path, class: "nav-link", 'aria-current': "page" if !current_user.seller? && !is_admin?%>
+          <%= link_to "Become seller", seller_path(current_user.id), class: "nav-link", 'aria-current': "page" if !current_user.seller? && !is_admin?%>
           <%= link_to "Logout", logout_path, method: :delete, class: "nav-link", 'aria-current': "page"%>
       </li>
         <%else%>

@@ -47,6 +47,7 @@ module SessionsHelper
   end
 
   def valid_relation?(other_user)
+    return if current_user.nil?
     if current_user.seller? && !other_user.seller?
       puts 'I am seller'
       true
@@ -61,6 +62,7 @@ module SessionsHelper
   end
 
   def seller_and_buyer
+    return if current_user.nil?
     if current_user.seller?
       'Buyers'
     else
@@ -91,4 +93,13 @@ module SessionsHelper
       true
     end
   end
+
+  def user_admin?(user)
+    if user.admin?
+      true
+    else
+      false
+    end
+  end
+
 end

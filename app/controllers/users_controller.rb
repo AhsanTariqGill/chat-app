@@ -2,8 +2,8 @@
 
 # This class handles user CRUD operations
 class UsersController < ApplicationController
-  before_action :authenticate_user
-  before_action :correct_user, only: %i[become_seller edit update]
+  before_action :authenticate_user, only: %i[become_seller edit update show index]
+  before_action :correct_user, only: %i[become_seller edit update show]
 
   def index
     @users = User.all
@@ -21,7 +21,12 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to @user
+      log_in @user
+      if is_admin?
+        redirect_to admin_root_path
+      else
+        redirect_to @user
+      end
     else
       render :new
     end
@@ -62,7 +67,7 @@ class UsersController < ApplicationController
   end
 
   def correct_user
-    @user = User.find(params[:id])
-    redirect_to(root_url) unless @user == current_user
+    @user_check = User.find(params[:id])
+    redirect_to(root_url) unless @user_check == current_user
   end
 end

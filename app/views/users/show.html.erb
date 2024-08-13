@@ -4,7 +4,7 @@
   <p>Existing conversations</p>
   <ul>
     <% @users.each do |user| %>
-      <%if user.id != current_user.id && conversation?(user) && valid_relation?(user) && is_approved?(get_conversation(user))%>
+      <%if user.id != current_user.id && conversation?(user) && valid_relation?(user) && is_approved?(get_conversation(user)) && !user_admin?(user)%>
         <li>
           <%= link_to user.name.capitalize(), chat_with_user_path(current_user.id, user.id) %>
         </li>
@@ -28,7 +28,7 @@
 
   <ul>
     <% @users.each do |user| %>
-      <%if user.id != current_user.id && !conversation?(user)  && valid_relation?(user) && !is_approved?(get_conversation(user)) && approval_pending?(get_request(user))%>
+      <%if user.id != current_user.id && !conversation?(user)  && valid_relation?(user) && !is_approved?(get_conversation(user)) && approval_pending?(get_request(user)) && !user_admin?(user)%>
         <li>
           <%= link_to user.name.capitalize(), get_request_admin_user_path(current_user, user) %>
         </li>

@@ -29,5 +29,5 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  get '/seller', to: 'users#become_seller'
+  get '/seller/:id', to: 'users#become_seller', as: :seller
 end
