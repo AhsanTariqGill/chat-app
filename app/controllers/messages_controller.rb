@@ -31,9 +31,9 @@ class MessagesController < ApplicationController
   end
 
   def authenticate_user
-    if !logged_in?
-      flash[:danger] = "You'r not logged in!"
-      redirect_to root_path
-    end
+    return if logged_in?
+
+    flash[:danger] = "You'r not logged in!"
+    redirect_to root_path
   end
 end

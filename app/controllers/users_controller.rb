@@ -3,7 +3,7 @@
 # This class handles user CRUD operations
 class UsersController < ApplicationController
   before_action :authenticate_user
-  before_action :correct_user, only: [:become_seller, :edit, :update]
+  before_action :correct_user, only: %i[become_seller edit update]
 
   def index
     @users = User.all
@@ -40,8 +40,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      #Handle successful update
-      flash[:success] = "Profile updated"
+      # Handle successful update
+      flash[:success] = 'Profile updated'
       redirect_to @user
     else
       render 'edit'
@@ -55,10 +55,10 @@ class UsersController < ApplicationController
   end
 
   def authenticate_user
-    if !logged_in?
-      flash[:danger] = "You'r not logged in!"
-      redirect_to root_path
-    end
+    return if logged_in?
+
+    flash[:danger] = "You'r not logged in!"
+    redirect_to root_path
   end
 
   def correct_user

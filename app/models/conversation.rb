@@ -17,5 +17,4 @@ class Conversation < ApplicationRecord
   def approval
     update_attribute(:approve, true)
   end
-  
 end

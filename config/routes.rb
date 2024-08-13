@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   namespace 'admin' do
     get '/requests', to: 'requests#show', as: :requests
-    get 'approve/:id/request/:sender_id/to/:receiver_id', to: "requests#approve", as: :approve_request
+    get 'approve/:id/request/:sender_id/to/:receiver_id', to: 'requests#approve', as: :approve_request
 
     resources :users do
       member do
@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get 'chat_with/:other_user_id', to: 'conversations#show', as: :chat_with
-
     end
   end
 
@@ -27,7 +26,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
-  get "/login", to: 'sessions#new'
+  get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   get '/seller', to: 'users#become_seller'

@@ -2,5 +2,5 @@
 
 # This class serves as base class for all other controllers
 class ApplicationController < ActionController::Base
-	include SessionsHelper
+  include SessionsHelper
 end
